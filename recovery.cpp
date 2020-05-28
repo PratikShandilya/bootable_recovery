@@ -179,7 +179,8 @@ static bool yes_no(Device* device, const char* question1, const char* question2)
 
 bool ask_to_continue_unverified(Device* device) {
   if (get_build_type() == "user") {
-    return false;
+    ui->SetProgressType(RecoveryUI::EMPTY);
+    return yes_no(device, "Signature verification failed", "Install anyway?");
   } else {
     ui->SetProgressType(RecoveryUI::EMPTY);
     return yes_no(device, "Signature verification failed", "Install anyway?");
@@ -863,7 +864,7 @@ Device::BuiltinAction start_recovery(Device* device, const std::vector<std::stri
 
   std::vector<std::string> title_lines =
       android::base::Split(android::base::GetProperty("ro.bootimage.build.fingerprint", ""), ":");
-  title_lines.insert(std::begin(title_lines), "Android Recovery");
+  title_lines.insert(std::begin(title_lines), "Quantum Recovery");
   ui->SetTitle(title_lines);
 
   ui->ResetKeyInterruptStatus();
